@@ -1,0 +1,4 @@
+cai/
+.venv/
+.pytest_cache/
+.env

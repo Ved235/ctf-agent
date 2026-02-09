@@ -1,0 +1,8 @@
+{
+  "name": "my-challenge",
+  "description": "a web challenge for testing",
+  "category": "web",
+  "box": "host.docker.internal",
+  "port":3009,
+  "flag_format": "csawctf{}"
+}
