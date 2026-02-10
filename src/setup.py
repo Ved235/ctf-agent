@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -96,6 +97,11 @@ def main() -> None:
     args = parser.parse_args()
 
     challenge_ctx = build_workspace_and_context(args.challenge_json_path, args.workspace_root)
+    workspace_path = Path(challenge_ctx["paths"]["workspace"]).resolve()
+    os.environ["CAI_WORKSPACE_DIR"] = str(workspace_path.parent)
+    os.environ["CAI_WORKSPACE"] = workspace_path.name
+    print(f"Workspace parent set to: {workspace_path.parent}")
+    print(f"Workspace name set to: {workspace_path.name}")
     result = run_test_agent(challenge_ctx)
     print(json.dumps(result, indent=2))
 
