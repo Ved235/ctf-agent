@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
     # Keep alive for docker compose exec workflows.
-    command: ["bash", "-lc", "tail -f /dev/null"]
+    command: ["bash", "-lc", "python3 /workspace/scripts/apply_cai_patch.py && tail -f /dev/null"]
 
     # Resource limits (applied by Swarm; harmless in regular compose).
     deploy:
