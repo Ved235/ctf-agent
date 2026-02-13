@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 
 from test_agent import run as run_test_agent
+from web_solver import run_web_solver
 
 REQUIRED_FIELDS = ("name", "description", "category", "host", "port", "flag_format")
 
@@ -102,7 +103,10 @@ def main() -> None:
     os.environ["CAI_WORKSPACE"] = workspace_path.name
     print(f"Workspace parent set to: {workspace_path.parent}")
     print(f"Workspace name set to: {workspace_path.name}")
-    result = run_test_agent(challenge_ctx)
+    if challenge_ctx["challenge"]["category"] == "web":
+        result = run_web_solver(challenge_ctx)
+    else:
+        result = run_test_agent(challenge_ctx)
     print(json.dumps(result, indent=2))
 
 
