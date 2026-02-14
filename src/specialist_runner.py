@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from cai.sdk.agents import Agent, Runner
 
 from solver_types import SolverContext, SurfaceMapperReport
-from surface_mapper_agent import build_surface_mapper_agent
+from web_agent.surface_mapper_agent import build_surface_mapper_agent
 
 
 SPECIALIST_REGISTRY: dict[str, Callable[[str], Agent]] = {
