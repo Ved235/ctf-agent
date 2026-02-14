@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 from test_agent import run as run_test_agent
-from web_solver import run_web_solver
+from web_agent.web_solver import run_web_solver
 
 REQUIRED_FIELDS = ("name", "description", "category", "host", "port", "flag_format")
 

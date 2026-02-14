@@ -8,9 +8,9 @@ from typing import Any
 from cai.sdk.agents import Runner
 
 from blackboard import append_event, init_blackboard, persist_blackboard
-from session_manager import init_session_store, open_session
+from web_agent.session_manager import init_session_store, open_session
 from solver_types import SolverContext, WebManagerOutput
-from web_manager_agent import build_web_manager_agent
+from web_agent.web_manager_agent import build_web_manager_agent
 
 try:
     from dotenv import load_dotenv

@@ -15,7 +15,7 @@ from urllib.parse import parse_qsl, quote_plus, urlencode, urldefrag, urljoin, u
 
 from cai.sdk.agents import RunContextWrapper, function_tool
 
-from session_manager import (
+from web_agent.session_manager import (
     get_cookie_jar_path,
     open_session,
     record_request,

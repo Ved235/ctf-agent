@@ -129,7 +129,7 @@ def build_web_manager_agent(model: str) -> Agent:
         name="WebManager",
         instructions=instructions,
         model=model,
-        model_settings=ModelSettings(temperature=0),
+        model_settings=ModelSettings(),
         tools=[run_surface_mapping_and_commit],
         output_type=WebManagerOutput,
         tool_use_behavior="stop_on_first_tool",
