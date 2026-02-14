@@ -22,18 +22,22 @@ async def run_specialist_agent_tool(
     ctx: SolverContext,
     task_payload: dict[str, Any],
 ) -> dict[str, Any]:
-    prompt = (
-        "Task payload for specialist:\n"
-        + json.dumps(task_payload, indent=2)
-        + "\n\n"
-        "Produce only the required structured output schema."
-    )
+    # Keep prompts compact: store full evidence in artifacts/session logs, not in LLM context.
+    prompt = "Task payload:\n" + json.dumps(task_payload, separators=(",", ":"), ensure_ascii=True)
    
+    max_turns_raw = task_payload.get("max_turns", 12)
+    try:
+        max_turns = int(max_turns_raw)
+    except Exception:
+        max_turns = 12
+    max_turns = max(1, min(max_turns, 50))
+
+    # Keep specialist loops bounded; artifacts hold details.
     result = await Runner.run(
         starting_agent=agent,
         input=prompt,
         context=ctx,
-        max_turns=10,
+        max_turns=max_turns,
     )
 
     final_output = result.final_output
@@ -59,5 +63,4 @@ async def run_specialist_agent_tool(
         "status": "ok",
         "specialist": specialist_name,
         "report": payload,
-        "report_json": json.dumps(payload),
     }

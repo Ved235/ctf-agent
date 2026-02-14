@@ -17,7 +17,6 @@ class SolverContext:
     session_state_path: str = ""
     step_counter: int = 0
     session_state: dict[str, Any] = field(default_factory=dict)
-    surface_report_path: str = ""
 
 
 class ArtifactRef(BaseModel):
@@ -69,6 +68,5 @@ class WebManagerOutput(BaseModel):
     status: str
     summary: str
     blackboard_path: str
-    surface_report_path: str
     session_log_path: str
     next_actions: list[str]

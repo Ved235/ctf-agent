@@ -37,7 +37,6 @@ def _build_context(challenge_ctx: dict[str, Any]) -> SolverContext:
     artifacts_dir.mkdir(parents=True, exist_ok=True)
 
     blackboard_path = docs_dir / "blackboard.json"
-    surface_report_path = docs_dir / "surface_report.json"
 
     return SolverContext(
         challenge=challenge_ctx["challenge"],
@@ -46,7 +45,6 @@ def _build_context(challenge_ctx: dict[str, Any]) -> SolverContext:
         artifacts_dir=str(artifacts_dir),
         blackboard_path=str(blackboard_path),
         session_state_path=str((docs_dir / "sessions" / "state.json")),
-        surface_report_path=str(surface_report_path),
     )
 
 
@@ -67,14 +65,15 @@ def run_web_solver(challenge_ctx: dict[str, Any]) -> dict[str, Any]:
     append_event(ctx.blackboard_state, "web_solver", "initialized", {"workspace": ctx.workspace})
     persist_blackboard(ctx)
 
-    manager = build_web_manager_agent(model=model, ctx=ctx)
+    manager = build_web_manager_agent(model=model)
     base_url = _base_url(ctx.challenge)
 
+    # Keep manager prompt short; details are persisted in blackboard/session logs.
     manager_prompt = (
-        "Run the surface mapping cycle using your tools and finalize with WebManagerOutput.\n"
-        f"Challenge: {json.dumps(ctx.challenge)}\n"
-        f"Base URL: {base_url}\n"
-        "Use session_name='default' and include seed_paths ['/','/robots.txt','/sitemap.xml']."
+        f"Run surface mapping for base_url={base_url} with session_name='default'. "
+        "Do an agentic crawl (LLM decides what to explore next). "
+        "Use seed_paths ['/','/robots.txt','/sitemap.xml'] as initial entrypoints only. "
+        "Use timeout_s=10 and max_turns=12 for the specialist."
     )
 
     run_result = Runner.run_sync(
@@ -101,7 +100,6 @@ def run_web_solver(challenge_ctx: dict[str, Any]) -> dict[str, Any]:
         "status": manager_output.status,
         "summary": manager_output.summary,
         "blackboard_path": manager_output.blackboard_path,
-        "surface_report_path": manager_output.surface_report_path,
         "session_log_path": manager_output.session_log_path,
         "next_actions": manager_output.next_actions,
     }
@@ -116,5 +114,4 @@ def run_web_solver(challenge_ctx: dict[str, Any]) -> dict[str, Any]:
         "manager_status": manager_output.status,
         "blackboard_path": str(Path(ctx.blackboard_path).resolve()),
         "session_log_path": str(session_log_path.resolve()),
-        "surface_report_path": str(Path(ctx.surface_report_path).resolve()),
     }

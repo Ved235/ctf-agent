@@ -78,12 +78,18 @@ def get_cookie_jar_path(state: dict[str, Any], session_name: str) -> str:
 def record_request(state: dict[str, Any], session_name: str, request_data: dict[str, Any]) -> str:
     session = open_session(state, session_name=session_name)
     request_id = request_data.get("request_id") or uuid.uuid4().hex[:16]
+    # Keep session logs reproducible but not overly verbose.
+    include_command = (str(request_data.get("include_command", "")).lower() in {"1", "true", "yes"})
+    sanitized = dict(request_data)
+    if not include_command:
+        sanitized.pop("command", None)
+
     entry = {
         "event": "request",
         "timestamp": _now_iso(),
         "session": session_name,
         "request_id": request_id,
-        **request_data,
+        **sanitized,
     }
     _append_jsonl(Path(session["requests_log"]), entry)
     session["updated_at"] = _now_iso()
@@ -95,12 +101,18 @@ def record_request(state: dict[str, Any], session_name: str, request_data: dict[
 def record_response(state: dict[str, Any], session_name: str, response_data: dict[str, Any]) -> str:
     session = open_session(state, session_name=session_name)
     request_id = response_data.get("request_id") or uuid.uuid4().hex[:16]
+    # Response artifacts are stored on disk; JSONL should stay compact.
+    max_stderr = int(response_data.get("stderr_trunc", 200)) if isinstance(response_data.get("stderr_trunc", 200), int) else 200
+    sanitized = dict(response_data)
+    if isinstance(sanitized.get("stderr"), str):
+        sanitized["stderr"] = sanitized["stderr"][:max_stderr]
+
     entry = {
         "event": "response",
         "timestamp": _now_iso(),
         "session": session_name,
         "request_id": request_id,
-        **response_data,
+        **sanitized,
     }
     _append_jsonl(Path(session["requests_log"]), entry)
     session["updated_at"] = _now_iso()
