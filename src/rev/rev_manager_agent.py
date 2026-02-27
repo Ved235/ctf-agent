@@ -146,6 +146,11 @@ def _limit_interesting_functions(items: list[Any], summary_chars: int) -> list[d
     return out
 
 
+def _flag_format(sctx: SolverContext) -> str:
+    challenge = sctx.challenge if isinstance(sctx.challenge, dict) else {}
+    return str(challenge.get("flag_format", "") or "")
+
+
 def build_rev_manager_agent(model: str) -> Agent:
     @function_tool(strict_mode=False)
     async def manager_load_blackboard_digest(
@@ -174,7 +179,6 @@ def build_rev_manager_agent(model: str) -> Agent:
         task: str,
         focus_functions: list[str] = [],
         known_facts: list[str] = [],
-        max_turns: int = 25,
         max_steps: int | None = None,
     ) -> dict[str, Any]:
         sctx = run_ctx.context
@@ -187,16 +191,17 @@ def build_rev_manager_agent(model: str) -> Agent:
             return {"status": "error", "error": "budget_exhausted"}
 
         runtime_binary = str(sctx.runtime.get("binary_path") or "")
+        flag_format = _flag_format(sctx)
         digest = _blackboard_digest(sctx, max_items=20)
 
         try:
             payload = IDAAnalysisInput(
                 binary_path=runtime_binary,
+                flag_format=flag_format,
                 task=str(task or "Perform focused static reverse engineering analysis on this binary."),
                 focus_functions=list(focus_functions)[:15],
                 known_facts=(list(known_facts)[:15] if known_facts else list(digest.get("facts", []))[:15]),
                 previous_findings=_compact_previous(state),
-                max_turns=max(1, min(int(max_turns), 50)),
             ).model_dump()
         except ValidationError as e:
             return {
@@ -229,7 +234,6 @@ def build_rev_manager_agent(model: str) -> Agent:
         task: str,
         focus_functions: list[str] = [],
         known_facts: list[str] = [],
-        max_turns: int = 12,
         max_steps: int | None = None,
     ) -> dict[str, Any]:
         sctx = run_ctx.context
@@ -242,16 +246,17 @@ def build_rev_manager_agent(model: str) -> Agent:
             return {"status": "error", "error": "budget_exhausted"}
 
         runtime_binary = str(sctx.runtime.get("binary_path") or "")
+        flag_format = _flag_format(sctx)
         digest = _blackboard_digest(sctx, max_items=20)
 
         try:
             payload = DebuggerAnalysisInput(
                 binary_path=runtime_binary,
+                flag_format=flag_format,
                 task=str(task or "Run focused dynamic checks to validate current hypotheses."),
                 focus_functions=list(focus_functions)[:15],
                 known_facts=(list(known_facts)[:15] if known_facts else list(digest.get("facts", []))[:15]),
                 previous_findings=_compact_previous(state),
-                max_turns=max(1, min(int(max_turns), 50)),
             ).model_dump()
         except ValidationError as e:
             return {
@@ -283,7 +288,6 @@ def build_rev_manager_agent(model: str) -> Agent:
         run_ctx: RunContextWrapper[SolverContext],
         task: str,
         known_facts: list[str] = [],
-        max_turns: int = 12,
         max_steps: int | None = None,
     ) -> dict[str, Any]:
         sctx = run_ctx.context
@@ -296,6 +300,7 @@ def build_rev_manager_agent(model: str) -> Agent:
             return {"status": "error", "error": "budget_exhausted"}
 
         runtime_binary = str(sctx.runtime.get("binary_path") or "")
+        flag_format = _flag_format(sctx)
         digest = _blackboard_digest(sctx, max_items=20)
         task_max_chars = max(128, int_env("REV_ANALYSIS_TASK_MAX_CHARS", 3000))
         fact_max_chars = max(64, int_env("REV_ANALYSIS_FACT_MAX_CHARS", 1000))
@@ -353,6 +358,7 @@ def build_rev_manager_agent(model: str) -> Agent:
         try:
             payload = AnalysisInput(
                 binary_path=runtime_binary,
+                flag_format=flag_format,
                 task=bounded_task,
                 known_facts=(
                     _truncate_text_list(list(known_facts), max_items=15, max_chars=fact_max_chars)
@@ -360,7 +366,6 @@ def build_rev_manager_agent(model: str) -> Agent:
                     else _truncate_text_list(list(digest.get("facts", [])), max_items=15, max_chars=fact_max_chars)
                 ),
                 previous_findings=previous,
-                max_turns=max(1, min(int(max_turns), 50)),
             ).model_dump()
         except ValidationError as e:
             return {
@@ -479,10 +484,9 @@ def build_rev_manager_agent(model: str) -> Agent:
         "  - a new function needs to be understood\n"
         "  - a hypothesis requires structural validation\n"
         "- Run analysis agent when:\n"
-        "  - Static analysis or dynamic analysis have returned new structured findings\n"
-        "  - You believe you have enough information to solve challenge.\n"
+        "  - You believe you have enough information to solve challenge. Provide it with the key facts and all important context.\n"
         "- After each agent completes, update the blackboard with new findings and hypotheses.\n"
-        "- Repeat this loop until the challenge is solved, blocked, or budget is exhausted.\n"
+        "- Repeat this loop until the challenge is solved (flag is found), blocked, or budget is exhausted.\n"
         "Rules:\n"
         "- Keep calls compact; do not include raw dumps in events.\n"
         "- Never rely on artifact IDs/paths for reasoning; use structured summaries.\n"

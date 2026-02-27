@@ -1,0 +1,39 @@
+{
+  "server": "ida",
+  "tool_name": "disasm",
+  "args": {
+    "addr": "0x10b0"
+  },
+  "result": {
+    "is_error": false,
+    "texts": [
+      "{\n  \"addr\": \"0x10b0\",\n  \"asm\": {\n    \"name\": \"sub_10B0\",\n    \"start_ea\": \"0x10b0\",\n    \"lines\": \"sub_10B0 (.text @ 0x10b0):\\n10b0  lea     rdi, byte_4050\\n10b7  lea     rax, byte_4050\\n10be  cmp     rax, rdi\\n10c1  jz      short locret_10D8\\n10c3  mov     rax, cs:_ITM_deregisterTMCloneTable_ptr\\n10ca  test    rax, rax\\n10cd  jz      short locret_10D8\\n10cf  jmp     rax\\n10d8  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ]\n  },\n  \"instruction_count\": 9,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}"
+    ],
+    "content": [
+      {
+        "addr": "0x10b0",
+        "asm": {
+          "name": "sub_10B0",
+          "start_ea": "0x10b0",
+          "lines": "sub_10B0 (.text @ 0x10b0):\n10b0  lea     rdi, byte_4050\n10b7  lea     rax, byte_4050\n10be  cmp     rax, rdi\n10c1  jz      short locret_10D8\n10c3  mov     rax, cs:_ITM_deregisterTMCloneTable_ptr\n10ca  test    rax, rax\n10cd  jz      short locret_10D8\n10cf  jmp     rax\n10d8  retn",
+          "stack_frame": [
+            {
+              "name": "__return_address",
+              "offset": "0x0",
+              "size": "0x8",
+              "type": "_UNKNOWN *"
+            }
+          ]
+        },
+        "instruction_count": 9,
+        "total_instructions": null,
+        "cursor": {
+          "done": true
+        }
+      }
+    ],
+    "joined_text": "{\n  \"addr\": \"0x10b0\",\n  \"asm\": {\n    \"name\": \"sub_10B0\",\n    \"start_ea\": \"0x10b0\",\n    \"lines\": \"sub_10B0 (.text @ 0x10b0):\\n10b0  lea     rdi, byte_4050\\n10b7  lea     rax, byte_4050\\n10be  cmp     rax, rdi\\n10c1  jz      short locret_10D8\\n10c3  mov     rax, cs:_ITM_deregisterTMCloneTable_ptr\\n10ca  test    rax, rax\\n10cd  jz      short locret_10D8\\n10cf  jmp     rax\\n10d8  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ]\n  },\n  \"instruction_count\": 9,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}",
+    "tool_name": "disasm",
+    "server": "ida"
+  }
+}

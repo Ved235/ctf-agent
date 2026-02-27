@@ -61,7 +61,6 @@ def _fallback_report(
     output_model: type[BaseModel],
     payload: dict[str, Any],
     tool_outputs: list[dict[str, Any]],
-    max_turns: int,
 ) -> dict[str, Any]:
     if output_model is RevStaticSummary:
         facts: list[str] = []
@@ -110,7 +109,7 @@ def _fallback_report(
         if not facts and tool_outputs:
             facts.append("Collected partial static analysis outputs before max turns.")
         report = {
-            "summary": f"Partial static analysis returned because max_turns={max_turns} was reached.",
+            "summary": "Partial static analysis returned due to an interrupted specialist run.",
             "key_facts": facts[:20],
             "interesting_functions": functions[:20],
             "errors": errors[:20],
@@ -137,7 +136,7 @@ def _fallback_report(
                         if text:
                             observations.append(text)
         report = {
-            "summary": f"Partial dynamic analysis returned because max_turns={max_turns} was reached.",
+            "summary": "Partial dynamic analysis returned due to an interrupted specialist run.",
             "key_observations": observations[:20],
             "breakpoints_hit": [],
             "commands_run": commands[:20],
@@ -150,7 +149,7 @@ def _fallback_report(
         known_facts = [str(x) for x in known] if isinstance(known, list) else []
         report = {
             "updated_hypotheses": [],
-            "next_action": "Continue analysis with a higher max_turns budget using current findings.",
+            "next_action": "Continue analysis using current findings.",
             "facts": known_facts[:20],
             "requires_script": False,
             "is_done": False,
@@ -162,14 +161,14 @@ def _fallback_report(
 
     if output_model is SurfaceMapperReport:
         report = {
-            "summary": f"Partial surface mapping returned because max_turns={max_turns} was reached.",
+            "summary": "Partial surface mapping returned due to an interrupted specialist run.",
             "base_url": str(payload.get("base_url", "")),
             "endpoints": [],
             "headers_observed": [],
             "tech_stack": [],
             "hypotheses": [],
             "artifact_refs": [],
-            "errors": ["max_turns_exceeded"],
+            "errors": ["interrupted"],
         }
         return output_model.model_validate(report).model_dump()
 
@@ -233,26 +232,18 @@ async def run_specialist_agent_tool(
 
     prompt = "Task payload:\n" + json.dumps(payload, separators=(",", ":"), ensure_ascii=True)
 
-    max_turns_raw = payload.get("max_turns", 12)
-    try:
-        max_turns = int(max_turns_raw)
-    except Exception:
-        max_turns = 12
-    max_turns = max(1, min(max_turns, 50))
-
     streamed = Runner.run_streamed(
         starting_agent=agent,
         input=prompt,
         context=ctx,
-        max_turns=max_turns,
     )
 
-    max_turns_exceeded = False
+    interrupted_run = False
     try:
         async for _ in streamed.stream_events():
             pass
     except MaxTurnsExceeded:
-        max_turns_exceeded = True
+        interrupted_run = True
 
     final_output = streamed.final_output
     if final_output is not None:
@@ -262,13 +253,13 @@ async def run_specialist_agent_tool(
             if output_model is RevHypothesisUpdate:
                 parsed_dump = RevHypothesisUpdate.model_validate(_limit_analysis_output(parsed_dump)).model_dump()
             return {
-                "status": "partial" if max_turns_exceeded else "ok",
+                "status": "partial" if interrupted_run else "ok",
                 "specialist": specialist_name,
                 "report": parsed_dump,
-                "partial_reason": "max_turns_exceeded" if max_turns_exceeded else "",
+                "partial_reason": "interrupted" if interrupted_run else "",
             }
         except Exception:
-            if not max_turns_exceeded:
+            if not interrupted_run:
                 raise
 
     tool_outputs = _collect_tool_outputs(list(getattr(streamed, "new_items", [])))
@@ -276,11 +267,10 @@ async def run_specialist_agent_tool(
         output_model=output_model,
         payload=payload,
         tool_outputs=tool_outputs,
-        max_turns=max_turns,
     )
     return {
         "status": "partial",
         "specialist": specialist_name,
         "report": partial_report,
-        "partial_reason": "max_turns_exceeded",
+        "partial_reason": "interrupted",
     }

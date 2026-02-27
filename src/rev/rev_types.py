@@ -57,28 +57,28 @@ class RevDynamicSummary(BaseModel):
 
 class IDAAnalysisInput(BaseModel):
     binary_path: str
+    flag_format: str = ""
     task: str
     focus_functions: list[str] = Field(default_factory=list)
     known_facts: list[str] = Field(default_factory=list)
     previous_findings: dict[str, JSONValue] = Field(default_factory=dict)
-    max_turns: int = Field(default=12, ge=1, le=50)
 
 
 class DebuggerAnalysisInput(BaseModel):
     binary_path: str
+    flag_format: str = ""
     task: str
     focus_functions: list[str] = Field(default_factory=list)
     known_facts: list[str] = Field(default_factory=list)
     previous_findings: dict[str, JSONValue] = Field(default_factory=dict)
-    max_turns: int = Field(default=12, ge=1, le=50)
 
 
 class AnalysisInput(BaseModel):
     binary_path: str
+    flag_format: str = ""
     task: str
     known_facts: list[str] = Field(default_factory=list)
     previous_findings: dict[str, JSONValue] = Field(default_factory=dict)
-    max_turns: int = Field(default=12, ge=1, le=50)
 
 
 class ManagerCommitEventInput(BaseModel):

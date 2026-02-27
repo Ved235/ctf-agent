@@ -129,15 +129,16 @@ async def _run_rev_solver_async(challenge_ctx: dict[str, Any]) -> dict[str, Any]
         fold_single_event_into_state(ctx, rec)
 
         manager = build_rev_manager_agent(model=model)
+        flag_format = str((ctx.challenge or {}).get("flag_format", "") or "") if isinstance(ctx.challenge, dict) else ""
         manager_prompt = (
             f"Run one REV solve cycle for binary_path={binary_path} "
-            f"with max_steps={int_env('REV_MAX_STEPS', 200)}."
+            f"with max_steps={int_env('REV_MAX_STEPS', 200)}. "
+            f"Use flag_format={flag_format!r} in all reasoning and specialist tasking."
         )
         run_result = await Runner.run(
             starting_agent=manager,
             input=manager_prompt,
             context=ctx,
-            max_turns=int_env("REV_MANAGER_MAX_TURNS", 20),
         )
 
         manager_output = parse_agent_output(RevManagerOutput, run_result.final_output)

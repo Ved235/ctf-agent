@@ -1,0 +1,739 @@
+{
+  "ida_tools_raw": [
+    "lookup_funcs",
+    "int_convert",
+    "list_funcs",
+    "list_globals",
+    "imports",
+    "find_regex",
+    "decompile",
+    "disasm",
+    "xrefs_to",
+    "xrefs_to_field",
+    "callees",
+    "find_bytes",
+    "basic_blocks",
+    "find",
+    "export_funcs",
+    "callgraph",
+    "get_bytes",
+    "get_int",
+    "get_string",
+    "get_global_value",
+    "patch",
+    "put_int",
+    "declare_type",
+    "read_struct",
+    "search_structs",
+    "set_type",
+    "infer_types",
+    "set_comments",
+    "patch_asm",
+    "rename",
+    "define_func",
+    "define_code",
+    "undefine",
+    "stack_frame",
+    "declare_stack",
+    "delete_stack",
+    "py_eval",
+    "idalib_open",
+    "idalib_close",
+    "idalib_switch",
+    "idalib_list",
+    "idalib_current"
+  ],
+  "ida_tools_filtered": [
+    "lookup_funcs",
+    "int_convert",
+    "list_funcs",
+    "list_globals",
+    "imports",
+    "find_regex",
+    "decompile",
+    "disasm",
+    "xrefs_to",
+    "xrefs_to_field",
+    "callees",
+    "find_bytes",
+    "basic_blocks",
+    "find",
+    "export_funcs",
+    "callgraph",
+    "get_bytes",
+    "get_int",
+    "get_string",
+    "get_global_value",
+    "patch",
+    "put_int",
+    "declare_type",
+    "read_struct",
+    "search_structs",
+    "set_type",
+    "infer_types",
+    "set_comments",
+    "patch_asm",
+    "rename",
+    "define_func",
+    "define_code",
+    "undefine",
+    "stack_frame",
+    "declare_stack",
+    "delete_stack",
+    "py_eval",
+    "idalib_open",
+    "idalib_close",
+    "idalib_switch",
+    "idalib_list",
+    "idalib_current"
+  ],
+  "dbg_tools_raw": [
+    "execute",
+    "set_file",
+    "attach",
+    "run",
+    "step_control",
+    "finish",
+    "jump",
+    "return_from_function",
+    "until",
+    "get_context",
+    "set_breakpoint",
+    "get_memory",
+    "get_session_info",
+    "execute_python_script",
+    "execute_python_code",
+    "install_python_packages",
+    "list_python_packages",
+    "get_retdec_status",
+    "get_decompiled_code"
+  ],
+  "ida_tools_allowed": [
+    "list_funcs",
+    "decompile",
+    "disasm",
+    "find",
+    "get_bytes",
+    "rename",
+    "stack_frame",
+    "py_eval"
+  ],
+  "dbg_tools_allowed": [
+    "execute",
+    "set_file"
+  ],
+  "ida_allowed_missing_from_server": [],
+  "dbg_allowed_missing_from_server": [],
+  "ida_tool_specs": [
+    {
+      "name": "list_funcs",
+      "description": "List functions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "filter": {
+                      "type": "string",
+                      "description": "Optional glob pattern to filter results"
+                    },
+                    "offset": {
+                      "type": "integer",
+                      "description": "Starting index (default: 0)"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Maximum number of results (default: 50, 0 for all)"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "string",
+                    "description": "Optional glob pattern to filter results"
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "description": "Starting index (default: 0)"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "description": "Maximum number of results (default: 50, 0 for all)"
+                  }
+                },
+                "required": [],
+                "additionalProperties": false
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "List functions with optional filtering and pagination"
+          }
+        },
+        "required": [
+          "queries"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "result"
+        ]
+      }
+    },
+    {
+      "name": "decompile",
+      "description": "Decompile function to pseudocode",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "addr": {
+            "type": "string",
+            "description": "Function address to decompile"
+          }
+        },
+        "required": [
+          "addr"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "disasm",
+      "description": "Disassemble function to assembly instructions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "addr": {
+            "type": "string",
+            "description": "Function address to disassemble"
+          },
+          "max_instructions": {
+            "type": "integer",
+            "description": "Max instructions per function (default: 5000, max: 50000)"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Skip first N instructions (default: 0)"
+          },
+          "include_total": {
+            "type": "boolean",
+            "description": "Compute total instruction count (default: false)"
+          }
+        },
+        "required": [
+          "addr"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "find",
+      "description": "Search for patterns in the binary (strings, immediate values, or references)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Search type: 'string', 'immediate', 'data_ref', or 'code_ref'"
+          },
+          "targets": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "description": "Search targets (strings, integers, or addresses)"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max matches per target (default: 1000, max: 10000)"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Skip first N matches (default: 0)"
+          }
+        },
+        "required": [
+          "type",
+          "targets"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "result"
+        ]
+      }
+    },
+    {
+      "name": "get_bytes",
+      "description": "Read bytes from memory addresses",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "regions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "addr": {
+                      "type": "string",
+                      "description": "Address to read from (hex or decimal)"
+                    },
+                    "size": {
+                      "type": "integer",
+                      "description": "Number of bytes to read"
+                    }
+                  },
+                  "required": [
+                    "addr",
+                    "size"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "addr": {
+                    "type": "string",
+                    "description": "Address to read from (hex or decimal)"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "description": "Number of bytes to read"
+                  }
+                },
+                "required": [
+                  "addr",
+                  "size"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "required": [
+          "regions"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "result"
+        ]
+      }
+    },
+    {
+      "name": "rename",
+      "description": "Unified rename operation for functions, globals, locals, and stack variables",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "batch": {
+            "type": "object",
+            "properties": {
+              "func": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "addr": {
+                          "type": "string",
+                          "description": "Function address (hex or decimal)"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "New function name"
+                        }
+                      },
+                      "required": [
+                        "addr",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "addr": {
+                        "type": "string",
+                        "description": "Function address (hex or decimal)"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "New function name"
+                      }
+                    },
+                    "required": [
+                      "addr",
+                      "name"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Function rename operations"
+              },
+              "data": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "old": {
+                          "type": "string",
+                          "description": "Current variable name"
+                        },
+                        "new": {
+                          "type": "string",
+                          "description": "New variable name"
+                        }
+                      },
+                      "required": [
+                        "old",
+                        "new"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "old": {
+                        "type": "string",
+                        "description": "Current variable name"
+                      },
+                      "new": {
+                        "type": "string",
+                        "description": "New variable name"
+                      }
+                    },
+                    "required": [
+                      "old",
+                      "new"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Global/data variable rename operations"
+              },
+              "local": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "func_addr": {
+                          "type": "string",
+                          "description": "Function address containing the local variable"
+                        },
+                        "old": {
+                          "type": "string",
+                          "description": "Current variable name"
+                        },
+                        "new": {
+                          "type": "string",
+                          "description": "New variable name"
+                        }
+                      },
+                      "required": [
+                        "func_addr",
+                        "old",
+                        "new"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "func_addr": {
+                        "type": "string",
+                        "description": "Function address containing the local variable"
+                      },
+                      "old": {
+                        "type": "string",
+                        "description": "Current variable name"
+                      },
+                      "new": {
+                        "type": "string",
+                        "description": "New variable name"
+                      }
+                    },
+                    "required": [
+                      "func_addr",
+                      "old",
+                      "new"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Local variable rename operations"
+              },
+              "stack": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "func_addr": {
+                          "type": "string",
+                          "description": "Function address containing the stack variable"
+                        },
+                        "old": {
+                          "type": "string",
+                          "description": "Current variable name"
+                        },
+                        "new": {
+                          "type": "string",
+                          "description": "New variable name"
+                        }
+                      },
+                      "required": [
+                        "func_addr",
+                        "old",
+                        "new"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "func_addr": {
+                        "type": "string",
+                        "description": "Function address containing the stack variable"
+                      },
+                      "old": {
+                        "type": "string",
+                        "description": "Current variable name"
+                      },
+                      "new": {
+                        "type": "string",
+                        "description": "New variable name"
+                      }
+                    },
+                    "required": [
+                      "func_addr",
+                      "old",
+                      "new"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Stack variable rename operations"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "batch"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "stack_frame",
+      "description": "Get stack vars",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "addrs": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "Address(es)"
+          }
+        },
+        "required": [
+          "addrs"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "result"
+        ]
+      }
+    },
+    {
+      "name": "py_eval",
+      "description": "Execute Python code in IDA context.\nReturns dict with result/stdout/stderr.\nHas access to all IDA API modules.\nSupports Jupyter-style evaluation.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Python code"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    }
+  ],
+  "dbg_tool_specs": [
+    {
+      "name": "execute",
+      "description": "Execute an arbitrary GDB/pwndbg command.\n\n    Args:\n        command: Raw GDB/pwndbg command to execute (e.g., \"info registers\", \"vmmap\").\n\n    Returns:\n        Dict containing the raw MI/console responses, a success flag, and the current GDB state.\n    ",
+      "inputSchema": {
+        "properties": {
+          "command": {
+            "title": "Command",
+            "type": "string"
+          }
+        },
+        "required": [
+          "command"
+        ],
+        "title": "executeArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "additionalProperties": true,
+            "title": "Result",
+            "type": "object"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "executeOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "set_file",
+      "description": "Load an executable file into GDB/pwndbg for debugging.\n\n    Args:\n        binary_path: Absolute path to the ELF to debug.\n\n    Returns:\n        Dict with MI command responses and state.\n    ",
+      "inputSchema": {
+        "properties": {
+          "binary_path": {
+            "title": "Binary Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "binary_path"
+        ],
+        "title": "set_fileArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "additionalProperties": true,
+            "title": "Result",
+            "type": "object"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "set_fileOutput",
+        "type": "object"
+      }
+    }
+  ]
+}

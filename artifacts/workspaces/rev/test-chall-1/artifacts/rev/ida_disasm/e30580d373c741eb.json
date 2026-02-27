@@ -1,0 +1,39 @@
+{
+  "server": "ida",
+  "tool_name": "disasm",
+  "args": {
+    "addr": "0x1120"
+  },
+  "result": {
+    "is_error": false,
+    "texts": [
+      "{\n  \"addr\": \"0x1120\",\n  \"asm\": {\n    \"name\": \"sub_1120\",\n    \"start_ea\": \"0x1120\",\n    \"lines\": \"sub_1120 (.text @ 0x1120):\\n1120  endbr64\\n1124  cmp     cs:byte_4050, 0\\n112b  jnz     short locret_1160\\n112d  push    rbp\\n112e  cmp     cs:__cxa_finalize_ptr, 0\\n1136  mov     rbp, rsp\\n1139  jz      short loc_1148\\n113b  mov     rdi, cs:off_4048; void *\\n1142  call    cs:__cxa_finalize_ptr\\n1148  call    sub_10B0\\n114d  mov     cs:byte_4050, 1\\n1154  pop     rbp\\n1155  retn\\n1160  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ]\n  },\n  \"instruction_count\": 14,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}"
+    ],
+    "content": [
+      {
+        "addr": "0x1120",
+        "asm": {
+          "name": "sub_1120",
+          "start_ea": "0x1120",
+          "lines": "sub_1120 (.text @ 0x1120):\n1120  endbr64\n1124  cmp     cs:byte_4050, 0\n112b  jnz     short locret_1160\n112d  push    rbp\n112e  cmp     cs:__cxa_finalize_ptr, 0\n1136  mov     rbp, rsp\n1139  jz      short loc_1148\n113b  mov     rdi, cs:off_4048; void *\n1142  call    cs:__cxa_finalize_ptr\n1148  call    sub_10B0\n114d  mov     cs:byte_4050, 1\n1154  pop     rbp\n1155  retn\n1160  retn",
+          "stack_frame": [
+            {
+              "name": "__return_address",
+              "offset": "0x0",
+              "size": "0x8",
+              "type": "_UNKNOWN *"
+            }
+          ]
+        },
+        "instruction_count": 14,
+        "total_instructions": null,
+        "cursor": {
+          "done": true
+        }
+      }
+    ],
+    "joined_text": "{\n  \"addr\": \"0x1120\",\n  \"asm\": {\n    \"name\": \"sub_1120\",\n    \"start_ea\": \"0x1120\",\n    \"lines\": \"sub_1120 (.text @ 0x1120):\\n1120  endbr64\\n1124  cmp     cs:byte_4050, 0\\n112b  jnz     short locret_1160\\n112d  push    rbp\\n112e  cmp     cs:__cxa_finalize_ptr, 0\\n1136  mov     rbp, rsp\\n1139  jz      short loc_1148\\n113b  mov     rdi, cs:off_4048; void *\\n1142  call    cs:__cxa_finalize_ptr\\n1148  call    sub_10B0\\n114d  mov     cs:byte_4050, 1\\n1154  pop     rbp\\n1155  retn\\n1160  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ]\n  },\n  \"instruction_count\": 14,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}",
+    "tool_name": "disasm",
+    "server": "ida"
+  }
+}

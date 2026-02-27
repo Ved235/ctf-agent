@@ -1,0 +1,150 @@
+{
+  "server": "ida",
+  "tool_name": "list_funcs",
+  "args": {
+    "queries": []
+  },
+  "result": {
+    "is_error": false,
+    "texts": [
+      "[\n  {\n    \"data\": [\n      {\n        \"addr\": \"0x1000\",\n        \"name\": \".init_proc\",\n        \"size\": \"0x1b\"\n      },\n      {\n        \"addr\": \"0x1020\",\n        \"name\": \"sub_1020\",\n        \"size\": \"0xc\"\n      },\n      {\n        \"addr\": \"0x1030\",\n        \"name\": \".putchar\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1040\",\n        \"name\": \".puts\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1050\",\n        \"name\": \".fclose\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1060\",\n        \"name\": \".fopen\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1070\",\n        \"name\": \".getc\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1080\",\n        \"name\": \"start\",\n        \"size\": \"0x2f\"\n      },\n      {\n        \"addr\": \"0x10b0\",\n        \"name\": \"sub_10B0\",\n        \"size\": \"0x29\"\n      },\n      {\n        \"addr\": \"0x10e0\",\n        \"name\": \"sub_10E0\",\n        \"size\": \"0x39\"\n      },\n      {\n        \"addr\": \"0x1120\",\n        \"name\": \"sub_1120\",\n        \"size\": \"0x41\"\n      },\n      {\n        \"addr\": \"0x1170\",\n        \"name\": \"sub_1170\",\n        \"size\": \"0x9\"\n      },\n      {\n        \"addr\": \"0x1179\",\n        \"name\": \"sub_1179\",\n        \"size\": \"0x5f\"\n      },\n      {\n        \"addr\": \"0x11d8\",\n        \"name\": \"main\",\n        \"size\": \"0x27\"\n      },\n      {\n        \"addr\": \"0x1200\",\n        \"name\": \"init\",\n        \"size\": \"0x65\"\n      },\n      {\n        \"addr\": \"0x1270\",\n        \"name\": \"fini\",\n        \"size\": \"0x5\"\n      },\n      {\n        \"addr\": \"0x1278\",\n        \"name\": \".term_proc\",\n        \"size\": \"0xd\"\n      },\n      {\n        \"addr\": \"0x8001a0\",\n        \"name\": \"sub_8001A0\",\n        \"size\": \"0x304\"\n      },\n      {\n        \"addr\": \"0x8004a8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004b0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004b8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004c0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004c8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004d0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004d8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      }\n    ],\n    \"next_offset\": null\n  }\n]"
+    ],
+    "content": [
+      [
+        {
+          "data": [
+            {
+              "addr": "0x1000",
+              "name": ".init_proc",
+              "size": "0x1b"
+            },
+            {
+              "addr": "0x1020",
+              "name": "sub_1020",
+              "size": "0xc"
+            },
+            {
+              "addr": "0x1030",
+              "name": ".putchar",
+              "size": "0x6"
+            },
+            {
+              "addr": "0x1040",
+              "name": ".puts",
+              "size": "0x6"
+            },
+            {
+              "addr": "0x1050",
+              "name": ".fclose",
+              "size": "0x6"
+            },
+            {
+              "addr": "0x1060",
+              "name": ".fopen",
+              "size": "0x6"
+            },
+            {
+              "addr": "0x1070",
+              "name": ".getc",
+              "size": "0x6"
+            },
+            {
+              "addr": "0x1080",
+              "name": "start",
+              "size": "0x2f"
+            },
+            {
+              "addr": "0x10b0",
+              "name": "sub_10B0",
+              "size": "0x29"
+            },
+            {
+              "addr": "0x10e0",
+              "name": "sub_10E0",
+              "size": "0x39"
+            },
+            {
+              "addr": "0x1120",
+              "name": "sub_1120",
+              "size": "0x41"
+            },
+            {
+              "addr": "0x1170",
+              "name": "sub_1170",
+              "size": "0x9"
+            },
+            {
+              "addr": "0x1179",
+              "name": "sub_1179",
+              "size": "0x5f"
+            },
+            {
+              "addr": "0x11d8",
+              "name": "main",
+              "size": "0x27"
+            },
+            {
+              "addr": "0x1200",
+              "name": "init",
+              "size": "0x65"
+            },
+            {
+              "addr": "0x1270",
+              "name": "fini",
+              "size": "0x5"
+            },
+            {
+              "addr": "0x1278",
+              "name": ".term_proc",
+              "size": "0xd"
+            },
+            {
+              "addr": "0x8001a0",
+              "name": "sub_8001A0",
+              "size": "0x304"
+            },
+            {
+              "addr": "0x8004a8",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004b0",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004b8",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004c0",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004c8",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004d0",
+              "name": null,
+              "size": "0x8"
+            },
+            {
+              "addr": "0x8004d8",
+              "name": null,
+              "size": "0x8"
+            }
+          ],
+          "next_offset": null
+        }
+      ]
+    ],
+    "joined_text": "[\n  {\n    \"data\": [\n      {\n        \"addr\": \"0x1000\",\n        \"name\": \".init_proc\",\n        \"size\": \"0x1b\"\n      },\n      {\n        \"addr\": \"0x1020\",\n        \"name\": \"sub_1020\",\n        \"size\": \"0xc\"\n      },\n      {\n        \"addr\": \"0x1030\",\n        \"name\": \".putchar\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1040\",\n        \"name\": \".puts\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1050\",\n        \"name\": \".fclose\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1060\",\n        \"name\": \".fopen\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1070\",\n        \"name\": \".getc\",\n        \"size\": \"0x6\"\n      },\n      {\n        \"addr\": \"0x1080\",\n        \"name\": \"start\",\n        \"size\": \"0x2f\"\n      },\n      {\n        \"addr\": \"0x10b0\",\n        \"name\": \"sub_10B0\",\n        \"size\": \"0x29\"\n      },\n      {\n        \"addr\": \"0x10e0\",\n        \"name\": \"sub_10E0\",\n        \"size\": \"0x39\"\n      },\n      {\n        \"addr\": \"0x1120\",\n        \"name\": \"sub_1120\",\n        \"size\": \"0x41\"\n      },\n      {\n        \"addr\": \"0x1170\",\n        \"name\": \"sub_1170\",\n        \"size\": \"0x9\"\n      },\n      {\n        \"addr\": \"0x1179\",\n        \"name\": \"sub_1179\",\n        \"size\": \"0x5f\"\n      },\n      {\n        \"addr\": \"0x11d8\",\n        \"name\": \"main\",\n        \"size\": \"0x27\"\n      },\n      {\n        \"addr\": \"0x1200\",\n        \"name\": \"init\",\n        \"size\": \"0x65\"\n      },\n      {\n        \"addr\": \"0x1270\",\n        \"name\": \"fini\",\n        \"size\": \"0x5\"\n      },\n      {\n        \"addr\": \"0x1278\",\n        \"name\": \".term_proc\",\n        \"size\": \"0xd\"\n      },\n      {\n        \"addr\": \"0x8001a0\",\n        \"name\": \"sub_8001A0\",\n        \"size\": \"0x304\"\n      },\n      {\n        \"addr\": \"0x8004a8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004b0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004b8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004c0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004c8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004d0\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      },\n      {\n        \"addr\": \"0x8004d8\",\n        \"name\": null,\n        \"size\": \"0x8\"\n      }\n    ],\n    \"next_offset\": null\n  }\n]",
+    "tool_name": "list_funcs",
+    "server": "ida"
+  }
+}

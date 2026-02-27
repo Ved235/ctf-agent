@@ -1,0 +1,72 @@
+{
+  "server": "ida",
+  "tool_name": "disasm",
+  "args": {
+    "addr": "0x11d8"
+  },
+  "result": {
+    "is_error": false,
+    "texts": [
+      "{\n  \"addr\": \"0x11d8\",\n  \"asm\": {\n    \"name\": \"main\",\n    \"start_ea\": \"0x11d8\",\n    \"lines\": \"main (.text @ 0x11d8):\\n11d8  push    rbp\\n11d9  mov     rbp, rsp\\n11dc  sub     rsp, 10h\\n11e0  mov     [rbp+var_4], edi\\n11e3  mov     [rbp+var_10], rsi\\n11e7  lea     rdi, s; \\\"Just another innocent application, noth\\\"...\\n11ee  call    _puts\\n11f3  call    sub_1179\\n11f8  mov     eax, 0\\n11fd  leave\\n11fe  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"var_10\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_QWORD\"\n      },\n      {\n        \"name\": \"var_4\",\n        \"offset\": \"0xc\",\n        \"size\": \"0x4\",\n        \"type\": \"_DWORD\"\n      },\n      {\n        \"name\": \"__saved_registers\",\n        \"offset\": \"0x10\",\n        \"size\": \"0x8\",\n        \"type\": \"_QWORD\"\n      },\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x18\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ],\n    \"return_type\": \"int\",\n    \"arguments\": [\n      {\n        \"name\": \"arg0\",\n        \"type\": \"int\"\n      },\n      {\n        \"name\": \"arg1\",\n        \"type\": \"char **\"\n      },\n      {\n        \"name\": \"arg2\",\n        \"type\": \"char **\"\n      }\n    ]\n  },\n  \"instruction_count\": 11,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}"
+    ],
+    "content": [
+      {
+        "addr": "0x11d8",
+        "asm": {
+          "name": "main",
+          "start_ea": "0x11d8",
+          "lines": "main (.text @ 0x11d8):\n11d8  push    rbp\n11d9  mov     rbp, rsp\n11dc  sub     rsp, 10h\n11e0  mov     [rbp+var_4], edi\n11e3  mov     [rbp+var_10], rsi\n11e7  lea     rdi, s; \"Just another innocent application, noth\"...\n11ee  call    _puts\n11f3  call    sub_1179\n11f8  mov     eax, 0\n11fd  leave\n11fe  retn",
+          "stack_frame": [
+            {
+              "name": "var_10",
+              "offset": "0x0",
+              "size": "0x8",
+              "type": "_QWORD"
+            },
+            {
+              "name": "var_4",
+              "offset": "0xc",
+              "size": "0x4",
+              "type": "_DWORD"
+            },
+            {
+              "name": "__saved_registers",
+              "offset": "0x10",
+              "size": "0x8",
+              "type": "_QWORD"
+            },
+            {
+              "name": "__return_address",
+              "offset": "0x18",
+              "size": "0x8",
+              "type": "_UNKNOWN *"
+            }
+          ],
+          "return_type": "int",
+          "arguments": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "char **"
+            },
+            {
+              "name": "arg2",
+              "type": "char **"
+            }
+          ]
+        },
+        "instruction_count": 11,
+        "total_instructions": null,
+        "cursor": {
+          "done": true
+        }
+      }
+    ],
+    "joined_text": "{\n  \"addr\": \"0x11d8\",\n  \"asm\": {\n    \"name\": \"main\",\n    \"start_ea\": \"0x11d8\",\n    \"lines\": \"main (.text @ 0x11d8):\\n11d8  push    rbp\\n11d9  mov     rbp, rsp\\n11dc  sub     rsp, 10h\\n11e0  mov     [rbp+var_4], edi\\n11e3  mov     [rbp+var_10], rsi\\n11e7  lea     rdi, s; \\\"Just another innocent application, noth\\\"...\\n11ee  call    _puts\\n11f3  call    sub_1179\\n11f8  mov     eax, 0\\n11fd  leave\\n11fe  retn\",\n    \"stack_frame\": [\n      {\n        \"name\": \"var_10\",\n        \"offset\": \"0x0\",\n        \"size\": \"0x8\",\n        \"type\": \"_QWORD\"\n      },\n      {\n        \"name\": \"var_4\",\n        \"offset\": \"0xc\",\n        \"size\": \"0x4\",\n        \"type\": \"_DWORD\"\n      },\n      {\n        \"name\": \"__saved_registers\",\n        \"offset\": \"0x10\",\n        \"size\": \"0x8\",\n        \"type\": \"_QWORD\"\n      },\n      {\n        \"name\": \"__return_address\",\n        \"offset\": \"0x18\",\n        \"size\": \"0x8\",\n        \"type\": \"_UNKNOWN *\"\n      }\n    ],\n    \"return_type\": \"int\",\n    \"arguments\": [\n      {\n        \"name\": \"arg0\",\n        \"type\": \"int\"\n      },\n      {\n        \"name\": \"arg1\",\n        \"type\": \"char **\"\n      },\n      {\n        \"name\": \"arg2\",\n        \"type\": \"char **\"\n      }\n    ]\n  },\n  \"instruction_count\": 11,\n  \"total_instructions\": null,\n  \"cursor\": {\n    \"done\": true\n  }\n}",
+    "tool_name": "disasm",
+    "server": "ida"
+  }
+}

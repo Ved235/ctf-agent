@@ -1,0 +1,70 @@
+{
+  "server": "ida",
+  "tool_name": "find",
+  "args": {
+    "type": "string",
+    "targets": [
+      "not_even_real.txt",
+      "Just another innocent application, nothing to see here!",
+      "r"
+    ],
+    "limit": 100,
+    "offset": 0
+  },
+  "result": {
+    "is_error": false,
+    "texts": [
+      "[\n  {\n    \"query\": \"not_even_real.txt\",\n    \"matches\": [\n      \"0x200a\"\n    ],\n    \"count\": 1,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  },\n  {\n    \"query\": \"Just another innocent application, nothing to see here!\",\n    \"matches\": [\n      \"0x2020\"\n    ],\n    \"count\": 1,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  },\n  {\n    \"query\": \"r\",\n    \"matches\": [\n      \"0x451\",\n      \"0x473\",\n      \"0x48e\",\n      \"0x495\",\n      \"0x4ad\",\n      \"0x4b7\",\n      \"0x4be\",\n      \"0x2008\",\n      \"0x2013\",\n      \"0x202b\",\n      \"0x2054\"\n    ],\n    \"count\": 11,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  }\n]"
+    ],
+    "content": [
+      [
+        {
+          "query": "not_even_real.txt",
+          "matches": [
+            "0x200a"
+          ],
+          "count": 1,
+          "cursor": {
+            "done": true
+          },
+          "error": null
+        },
+        {
+          "query": "Just another innocent application, nothing to see here!",
+          "matches": [
+            "0x2020"
+          ],
+          "count": 1,
+          "cursor": {
+            "done": true
+          },
+          "error": null
+        },
+        {
+          "query": "r",
+          "matches": [
+            "0x451",
+            "0x473",
+            "0x48e",
+            "0x495",
+            "0x4ad",
+            "0x4b7",
+            "0x4be",
+            "0x2008",
+            "0x2013",
+            "0x202b",
+            "0x2054"
+          ],
+          "count": 11,
+          "cursor": {
+            "done": true
+          },
+          "error": null
+        }
+      ]
+    ],
+    "joined_text": "[\n  {\n    \"query\": \"not_even_real.txt\",\n    \"matches\": [\n      \"0x200a\"\n    ],\n    \"count\": 1,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  },\n  {\n    \"query\": \"Just another innocent application, nothing to see here!\",\n    \"matches\": [\n      \"0x2020\"\n    ],\n    \"count\": 1,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  },\n  {\n    \"query\": \"r\",\n    \"matches\": [\n      \"0x451\",\n      \"0x473\",\n      \"0x48e\",\n      \"0x495\",\n      \"0x4ad\",\n      \"0x4b7\",\n      \"0x4be\",\n      \"0x2008\",\n      \"0x2013\",\n      \"0x202b\",\n      \"0x2054\"\n    ],\n    \"count\": 11,\n    \"cursor\": {\n      \"done\": true\n    },\n    \"error\": null\n  }\n]",
+    "tool_name": "find",
+    "server": "ida"
+  }
+}
