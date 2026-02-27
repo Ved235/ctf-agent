@@ -5,7 +5,7 @@ from typing import Any
 
 from cai.sdk.agents import Agent, ModelSettings, RunContextWrapper, function_tool
 
-from blackboard import append_event, merge_surface_report, persist_blackboard
+from web_agent.web_blackboard import append_event, merge_surface_report, persist_blackboard
 from solver_types import SolverContext, SurfaceMapperReport, WebManagerOutput
 from specialist_runner import SPECIALIST_REGISTRY, run_specialist_agent_tool
 
@@ -39,13 +39,14 @@ def build_web_manager_agent(model: str) -> Agent:
                 next_actions=["Fix solver context wiring."],
             ).model_dump()
 
+        session_log_path = str((Path(manager_ctx.docs_dir) / "sessions" / session_name / "requests.jsonl").resolve())
         builder = SPECIALIST_REGISTRY.get("surface_mapper")
         if builder is None:
             return WebManagerOutput(
                 status="error",
                 summary="surface_mapper not registered",
                 blackboard_path=str(Path(manager_ctx.blackboard_path).resolve()),
-                session_log_path=str((Path(manager_ctx.docs_dir) / "sessions" / session_name / "requests.jsonl").resolve()),
+                session_log_path=session_log_path,
                 next_actions=["Register surface_mapper specialist."],
             ).model_dump()
 
@@ -89,7 +90,7 @@ def build_web_manager_agent(model: str) -> Agent:
                 status="error",
                 summary="surface mapper returned invalid report",
                 blackboard_path=str(Path(manager_ctx.blackboard_path).resolve()),
-                session_log_path=str((Path(manager_ctx.docs_dir) / "sessions" / session_name / "requests.jsonl").resolve()),
+                session_log_path=session_log_path,
                 next_actions=["Inspect specialist output and fix schema adherence."],
             ).model_dump()
 
@@ -112,7 +113,7 @@ def build_web_manager_agent(model: str) -> Agent:
             status="completed",
             summary=report.summary,
             blackboard_path=str(Path(manager_ctx.blackboard_path).resolve()),
-            session_log_path=str((Path(manager_ctx.docs_dir) / "sessions" / session_name / "requests.jsonl").resolve()),
+            session_log_path=session_log_path,
             next_actions=[
                 "Use findings/hypotheses in blackboard to proceed to vulnerability testing and exploit dev.",
             ],

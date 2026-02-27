@@ -1,9 +1,9 @@
 {
   "name": "test-chall-1",
-  "description": "a web challenge for testing",
-  "category": "web",
-  "host": "host.docker.internal",
-  "port":3009,
-  "source": "challenges/",
-  "flag_format": "csawctf{}"
+  "description": "a rev challenge for testing",
+  "category": "rev",
+  "host": "",
+  "port": "",
+  "source": "challenges/app",
+  "flag_format": ""
 }

@@ -220,16 +220,19 @@ def _parse_body_parser(
             parsed["error"] = f"form_parse_failed: {e}"
         parsed["hints"] = _derive_hints(headers, body_text)
         return parsed
-    
+
     # Script files (JS, PHP, etc.)
     script_exts = (".js", ".php", ".py", ".rb", ".pl", ".sh", ".ts", ".jsx", ".tsx")
     parsed_url = urlparse(page_url)
     path = parsed_url.path.lower()
     if any(path.endswith(ext) for ext in script_exts):
         parsed["kind"] = "script"
-        parsed["excerpt"] = body_text
+        excerpt_len = _get_int_env("CSAWAI_PARSED_BODY_TEXT_EXCERPT_CHARS", 600)
+        parsed["excerpt"] = body_text[:excerpt_len]
+        parsed["text_len"] = len(body_text)
+        parsed["hints"] = _derive_hints(headers, body_text)
         return parsed
-    
+
     # Plain text
     if ct.startswith("text/") or "charset=" in ct:
         parsed["kind"] = "text"
@@ -242,7 +245,7 @@ def _parse_body_parser(
     # Fallback: unknown/binary-ish
     parsed["kind"] = "binary_or_unknown"
     parsed["hints"] = _derive_hints(headers, body_text)
-    return parsed 
+    return parsed
 
 def _append_query(url: str, params: dict[str, Any]) -> str:
     parsed = urlparse(url)
@@ -315,7 +318,7 @@ async def http_request_with_session(
         return {"status": "error", "error": "missing solver context"}
 
     session_state = solver_ctx.session_state
-    session = open_session(session_state, session_name=session_name)
+    open_session(session_state, session_name=session_name)
     cookie_jar = get_cookie_jar_path(session_state, session_name=session_name)
 
     # NOTE: defaults are empty dicts to keep OpenAI function schemas strict (no anyOf/null).

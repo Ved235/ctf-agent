@@ -5,6 +5,7 @@ import re
 import shutil
 from pathlib import Path
 
+from rev.rev_solver import run_rev_solver
 from test_agent import run as run_test_agent
 from web_agent.web_solver import run_web_solver
 
@@ -38,6 +39,23 @@ def _copy_source_if_present(manifest: dict, manifest_path: Path, workspace: Path
     else:
         source_path = source_path.resolve()
 
+    category = str(manifest.get("category", "")).lower()
+    target_root = (workspace / "challenge_source").resolve()
+
+    if category == "rev":
+        if not source_path.is_file():
+            return None, {
+                "configured": True,
+                "copied": False,
+                "error": f"Configured source path is not a file for rev category: {source_path}",
+            }
+        if target_root.exists():
+            shutil.rmtree(target_root)
+        target_root.mkdir(parents=True, exist_ok=True)
+        target_file = (target_root / source_path.name).resolve()
+        shutil.copy2(source_path, target_file)
+        return str(target_file), {"configured": True, "copied": True, "error": None, "kind": "file"}
+
     if not source_path.is_dir():
         return None, {
             "configured": True,
@@ -45,12 +63,11 @@ def _copy_source_if_present(manifest: dict, manifest_path: Path, workspace: Path
             "error": f"Configured source path is not a directory: {source_path}",
         }
 
-    target = (workspace / "challenge_source").resolve()
-    if target.exists():
-        shutil.rmtree(target)
-    shutil.copytree(source_path, target)
+    if target_root.exists():
+        shutil.rmtree(target_root)
+    shutil.copytree(source_path, target_root)
 
-    return str(target), {"configured": True, "copied": True, "error": None}
+    return str(target_root), {"configured": True, "copied": True, "error": None, "kind": "directory"}
 
 
 def build_workspace_and_context(challenge_json_path: str, workspace_root: str | None = None) -> dict:
@@ -66,7 +83,7 @@ def build_workspace_and_context(challenge_json_path: str, workspace_root: str | 
     scripts_dir.mkdir(parents=True, exist_ok=True)
     docs_dir.mkdir(parents=True, exist_ok=True)
 
-    source_dir, source_meta = _copy_source_if_present(manifest, manifest_path, workspace)
+    source_path, source_meta = _copy_source_if_present(manifest, manifest_path, workspace)
 
     return {
         "challenge": {
@@ -81,7 +98,8 @@ def build_workspace_and_context(challenge_json_path: str, workspace_root: str | 
             "workspace": str(workspace),
             "scripts_dir": str(scripts_dir),
             "docs_dir": str(docs_dir),
-            "source_dir": source_dir,
+            "source_dir": source_path,
+            "source_path": source_path,
         },
         "source": source_meta,
     }
@@ -105,6 +123,8 @@ def main() -> None:
     print(f"Workspace name set to: {workspace_path.name}")
     if challenge_ctx["challenge"]["category"] == "web":
         result = run_web_solver(challenge_ctx)
+    elif challenge_ctx["challenge"]["category"] == "rev":
+        result = run_rev_solver(challenge_ctx)
     else:
         result = run_test_agent(challenge_ctx)
     print(json.dumps(result, indent=2))

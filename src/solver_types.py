@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, TypeVar
 
 from pydantic import BaseModel, Field
+
+ModelT = TypeVar("ModelT", bound=BaseModel)
 
 
 @dataclass
@@ -17,6 +19,8 @@ class SolverContext:
     session_state_path: str = ""
     step_counter: int = 0
     session_state: dict[str, Any] = field(default_factory=dict)
+    runtime: dict[str, Any] = field(default_factory=dict)
+    events_path: str = ""
 
 
 class ArtifactRef(BaseModel):
@@ -70,3 +74,13 @@ class WebManagerOutput(BaseModel):
     blackboard_path: str
     session_log_path: str
     next_actions: list[str]
+
+
+def parse_agent_output(output_model: type[ModelT], final_output: Any) -> ModelT:
+    if isinstance(final_output, output_model):
+        return final_output
+    if isinstance(final_output, BaseModel):
+        return output_model.model_validate(final_output.model_dump())
+    if isinstance(final_output, str):
+        return output_model.model_validate_json(final_output)
+    return output_model.model_validate(final_output)

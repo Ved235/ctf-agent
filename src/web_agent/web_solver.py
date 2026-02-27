@@ -7,9 +7,9 @@ from typing import Any
 
 from cai.sdk.agents import Runner
 
-from blackboard import append_event, init_blackboard, persist_blackboard
+from web_agent.web_blackboard import append_event, init_blackboard, persist_blackboard
 from web_agent.session_manager import init_session_store, open_session
-from solver_types import SolverContext, WebManagerOutput
+from solver_types import SolverContext, WebManagerOutput, parse_agent_output
 from web_agent.web_manager_agent import build_web_manager_agent
 
 try:
@@ -83,15 +83,7 @@ def run_web_solver(challenge_ctx: dict[str, Any]) -> dict[str, Any]:
         max_turns=12,
     )
 
-    final_output = run_result.final_output
-    if isinstance(final_output, WebManagerOutput):
-        manager_output = final_output
-    elif isinstance(final_output, str):
-        manager_output = WebManagerOutput.model_validate_json(final_output)
-    elif isinstance(final_output, dict):
-        manager_output = WebManagerOutput.model_validate(final_output)
-    else:
-        manager_output = WebManagerOutput.model_validate(final_output)
+    manager_output = parse_agent_output(WebManagerOutput, run_result.final_output)
 
     output_file = Path(ctx.workspace) / RESULT_FILENAME
     session_log_path = Path(ctx.docs_dir) / "sessions" / "default" / "requests.jsonl"
